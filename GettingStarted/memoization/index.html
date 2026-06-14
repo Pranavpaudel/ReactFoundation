@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18",
+          "react-dom/client": "https://esm.sh/react-dom@18/client"
+        }
+      }
+    </script>
+
+    <script data-type="module" type="text/babel">
+      import React from "react";
+      import { createRoot } from "react-dom/client";
+
+      class Book {
+        constructor(title, author) {
+          this.title = title;
+          this.author = author;
+        }
+
+        toString() {
+          return `${this.title}, by ${this.author}`;
+        }
+      }
+
+      class Film {
+        constructor(name, genre, blurb) {
+          this.name = name;
+          this.genre = genre;
+          this.blurb = blurb;
+        }
+
+        toString() {
+          return `${this.name} [${this.genre}], ${this.blurb}`;
+        }
+      }
+
+      function ItemList({ items }) {
+        return (
+          <div>
+            <ul>
+              {items.map((item, idx) => (
+                <li key={idx}>{item.toString()}</li>
+              ))}
+            </ul>
+          </div>
+        );
+      }
+
+      function Footer() {
+        const initialRenderTime = React.useMemo(
+          () => new Date().toString(),
+          [],
+        );
+        return <p>Page first rendered at: {initialRenderTime}</p>;
+      }
+
+      function App() {
+        const restBaseUrl = "http://localhost:3000/library";
+        const [books, setBooks] = React.useState([]);
+        const [films, setFilms] = React.useState([]);
+
+        React.useEffect(() => {
+          async function fetchBooks() {
+            try {
+              const response = await window.fetch(`${restBaseUrl}/books`);
+              if (!response.ok) {
+                throw Error(console.log(response.statusText));
+              }
+              const rawBooksData = await response.json();
+              setBooks(rawBooksData.map((b) => new Book(b.title, b.author)));
+            } catch (error) {
+              console.log(error);
+            }
+          }
+          fetchBooks();
+        }, []);
+
+        React.useEffect(() => {
+          async function fetchFilms() {
+            try {
+              const response = await window.fetch(`${restBaseUrl}/films`);
+              if (!response.ok) {
+                throw Error(console.log(response.statusText));
+              }
+              const rawFilmData = await response.json();
+              setFilms(
+                rawFilmData.map((f) => new Film(f.name, f.genre, f.blurb)),
+              );
+            } catch (error) {
+              console.log(error);
+            }
+          }
+          fetchFilms();
+        }, []);
+
+        const [likeState, setLikeState] = React.useState({
+          likeCount: 0,
+          updatedAt: new Date(),
+        });
+
+        React.useEffect(
+          () =>
+            console.log(
+              "Like Count is now",
+              likeState.likeCount,
+              "at ",
+              likeState.updatedAt.toString(),
+            ),
+          [likeState],
+        );
+
+        function LikeCounter() {
+          setLikeState({
+            likeCount: likeState.likeCount + 1,
+            updatedAt: new Date(),
+          });
+        }
+
+        function ResetLikeCount() {
+          setLikeState({
+            likeCount: 0,
+            updatedAt: new Date(),
+          });
+        }
+
+        const booksHeader = React.useMemo(
+          () => <h2> Books [count {books.length}]</h2>,
+          [books],
+        );
+
+        const filmsHeader = React.useMemo(
+          () => <h2>Films [count {films.length}]</h2>,
+          [films],
+        );
+
+        return (
+          <>
+            <h1>Bullet Point</h1>
+            {booksHeader}
+            <ItemList items={books} />
+            {filmsHeader}
+            <ItemList items={films} />
+            <br />
+            <p> Like count : {likeState.likeCount}</p>
+            <button onClick={LikeCounter}>Like library</button>
+            <button onClick={ResetLikeCount}>Reset Like</button>
+            <h1>Last Updated: {likeState.updatedAt.toString()}</h1>
+
+            <Footer />
+          </>
+        );
+      }
+
+      const root = createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
