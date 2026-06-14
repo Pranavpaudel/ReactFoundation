@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18",
+          "react-dom/client": "https://esm.sh/react-dom@18/client"
+        }
+      }
+    </script>
+
+    <script data-type="module" type="text/babel">
+      import React from "react";
+      import { createRoot } from "react-dom/client";
+
+      function Panel({ title, text }) {
+        return (
+          <div className="panel">
+            <h1>{title}</h1>
+            <p>Text: {text}</p>
+            <p>Time Stamp: {new Date().toString()}</p>
+          </div>
+        );
+      }
+
+      const MemoizedPanel = React.memo(Panel);
+
+      function App() {
+        const [text, setText] = React.useState("");
+        const [clickCount, setClickCount] = React.useState(0);
+
+        return (
+          <>
+            <input
+              vallue={text}
+              placeholder="Type here"
+              onChange={(e) => setText(e.target.value)}
+            />
+            <button
+              onClick={() => {
+                setClickCount(clickCount + 1);
+              }}
+            >
+              Click me[Count:{clickCount}]
+            </button>
+
+            <Panel title="Normal Panel" text={text} />
+            <MemoizedPanel title="Memoized Panel" text={text} />
+          </>
+        );
+      }
+
+      const root = createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
