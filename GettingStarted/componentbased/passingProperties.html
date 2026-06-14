@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18",
+          "react-dom/client": "https://esm.sh/react-dom@18/client"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import React from "react";
+      import { createRoot } from "react-dom/client";
+
+      const products = [
+        "Swansea City shirt",
+        "Cardiff City shirt",
+        "Bugatti Divo",
+        "55in OLED HD TV",
+        "Carving skis",
+        "Ski boots",
+      ];
+
+      const shops = ["Paris", "London", "NY", "Sydney"];
+
+      class ItemList extends React.Component {
+        render() {
+          let listType = this.props.isOrdered ? "ol" : "ul";
+
+          return React.createElement(
+            listType,
+            null,
+            this.props.items.map((itm, i) =>
+              React.createElement("li", { key: i }, itm),
+            ),
+          );
+        }
+      }
+
+      class App extends React.Component {
+        render() {
+          return React.createElement(
+            "div",
+            null,
+            React.createElement("h1", null, "Catalogue"),
+            React.createElement(ItemList, { items: products, isOrdered: true }),
+            React.createElement("h1", null, "Shops"),
+            React.createElement(ItemList, { items: shops }),
+          );
+        }
+      }
+
+      const app = React.createElement(App);
+
+      const root = createRoot(document.getElementById("root"));
+      root.render(app);
+    </script>
+  </body>
+</html>

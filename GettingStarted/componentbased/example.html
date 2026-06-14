@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18",
+          "react-dom/client": "https://esm.sh/react-dom@18/client"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import React from "react";
+      import { createRoot } from "react-dom/client";
+
+      class ProductList extends React.Component{
+        render(){
+            return React.createElement('ul', null,
+                React.createElement('li', null, 'Swansea City shirt'),
+                React.createElement('li', null,'Cardiff City shirt' ),
+                React.createElement('li', null, 'Bugatti Divo')
+            )
+        }
+      }
+
+
+      class ShopList extends React.Component{
+        render(){
+            return React.createElement('ul', null,
+                React.createElement('li', null, 'London'),
+                React.createElement('li', null, 'Paris'),
+                React.createElement('li', null, 'NY')
+            )
+        }
+      }
+
+      class App extends React.Component{
+        render(){
+            return React.createElement('div', null,
+                React.createElement("h1", null, "Catalogue"),
+                React.createElement(ProductList),
+                React.createElement("h1", null, "Shops"),
+                React.createElement(ShopList)
+            )
+        }
+      }
+
+
+      const app = React.createElement(App)
+
+      const root = createRoot(document.getElementById('root'))
+      root.render(app)
+    </script>
+  </body>
+</html>

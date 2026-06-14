@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="lab2.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18",
+          "react-dom/client": "https://esm.sh/react-dom@18/client"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import React from "react";
+      import { createRoot } from "react-dom/client";
+
+      class Book {
+        constructor(title, author) {
+          this.title = title;
+          this.author = author;
+        }
+
+        toString() {
+          return `${this.title}, by ${this.author}`;
+        }
+      }
+
+      class Film {
+        constructor(name, genre, blurb) {
+          this.name = name;
+          this.genre = genre;
+          this.blurb = blurb;
+        }
+
+        toString() {
+          return `${this.name} [${this.genre}], ${this.blurb}`;
+        }
+      }
+
+      const books = [
+        new Book("Millenium", "Stieg Larrson"),
+        new Book("Achristmas Carol", "Charles Dickens"),
+        new Book("The Son", "Jo Nesbo"),
+      ];
+
+      const films = [
+        new Film("Airplane", "Comedy", "Classic plane Spoof"),
+        new Film("Skyfall", "Adventure", "Bond spy Yarn"),
+      ];
+
+      class ItemList extends React.Component {
+        render() {
+          let listType = this.props.isOrdered ? "ol" : "ul";
+
+          return React.createElement(
+            listType,
+            null,
+            this.props.items.map((itm, i) =>
+              React.createElement("li", { key: i }, itm.toString()),
+            ),
+          );
+        }
+      }
+
+      class TableHead extends React.Component {
+        render() {
+          return React.createElement(
+            "thead",
+            null,
+            React.createElement(
+              "tr",
+              null,
+              this.props.headers.map((h, i) =>
+                React.createElement("th", { key: i }, h),
+              ),
+            ),
+          );
+        }
+      }
+
+      class TableRow extends React.Component {
+        render() {
+          return React.createElement(
+            "tr",
+            null,
+            this.props.cells.map((cell, i) =>
+              React.createElement("td", { key: i }, cell),
+            ),
+          );
+        }
+      }
+
+      class Table extends React.Component {
+        render() {
+          return React.createElement(
+            "table",
+            { border: "1", cellPadding: "6" },
+            React.createElement(TableHead, { headers: this.props.headers }),
+            React.createElement(
+              "tbody",
+              null,
+              this.props.rows.map((row, i) =>
+                React.createElement(TableRow, { key: i, cells: row }),
+              ),
+            ),
+          );
+        }
+      }
+
+      class App extends React.Component {
+        render() {
+          return React.createElement(
+            "div",
+            null,
+            React.createElement("h1", null, "Library"),
+            React.createElement("h3", null, "Books"),
+            React.createElement(ItemList, { items: books, isOrdered: true }),
+            React.createElement(Table, {
+              headers: ["Title", "Author"],
+              rows: books.map((b) => [b.title, b.author]),
+            }),
+            React.createElement("h3", null, "Films"),
+            React.createElement(ItemList, { items: films }),
+            React.createElement(Table, {
+              headers: ["Name", "Genre", "Blurb"],
+              rows: films.map((f) => [f.name, f.genre, f.blurb]),
+            }),
+          );
+        }
+      }
+
+      const app = React.createElement(App);
+
+      const root = createRoot(document.getElementById("root"));
+      root.render(app);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      html, body { height: 100%; overflow: hidden; font-family: sans-serif; }
+
+      #root {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .gallery {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        padding: 10px;
+        background: #111;
+        overflow-x: auto;
+        flex-shrink: 0;
+      }
+
+      .smallImage {
+        height: 80px;
+        width: 80px;
+        object-fit: cover;
+        cursor: pointer;
+        border: 3px solid transparent;
+        border-radius: 4px;
+        transition: border-color 0.2s;
+      }
+
+      .smallImage:hover { border-color: #fff; }
+
+      .preview {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #222;
+        color: #fff;
+        overflow: hidden;
+      }
+
+      .preview img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18",
+          "react-dom/client": "https://esm.sh/react-dom@18/client"
+        }
+      }
+    </script>
+
+    <script data-type="module" type="text/babel">
+      import React from "react";
+      import { createRoot } from "react-dom/client";
+
+      function Gallery({ baseUrl, picId }) {
+        const [selectedUrl, setSelectedUrl] = React.useState(undefined);
+
+        const mainContent = selectedUrl ? (
+          <img src={`${baseUrl}/id/${selectedUrl}/800/600`} />
+        ) : (
+          <h1>No image selected</h1>
+        );
+        return (
+          <>
+            <div className="gallery">
+              {picId.map((pic, idx) => (
+                <img
+                  key={idx}
+                  src={`${baseUrl}/id/${pic}/80/80`}
+                  className="smallImage"
+                  onClick={() => setSelectedUrl(pic)}
+                />
+              ))}
+            </div>
+            <div className="preview">{mainContent}</div>
+          </>
+        );
+      }
+
+      const baseUrl = "https://picsum.photos";
+      const picId = ["0", "1", "2", "3", "4"];
+
+      const root = createRoot(document.getElementById("root"));
+      root.render(<Gallery baseUrl={baseUrl} picId={picId} />);
+    </script>
+  </body>
+</html>

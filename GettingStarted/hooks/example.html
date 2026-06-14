@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18",
+          "react-dom/client": "https://esm.sh/react-dom@18/client"
+        }
+      }
+    </script>
+
+    <script data-type="module" type="text/babel">
+      import React from "react";
+      import { createRoot } from "react-dom/client";
+
+      function App() {
+        const [clickState, setClickState] = React.useState({
+          clickCount: 0,
+          updatedTime: new Date(),
+        });
+
+        function OnClickHandler() {
+          setClickState({
+            clickCount: clickState.clickCount + 1,
+            updatedTime: new Date(),
+          });
+        }
+
+        function ResetHandler() {
+          setClickState({
+            clickCount: 0,
+            updatedTime: new Date(),
+          });
+        }
+
+        return (
+          <>
+            <h1>Simple Hook</h1>
+            <p>Click Count : {clickState.clickCount}</p>
+            <button onClick={OnClickHandler}>Click Me</button>
+            <button onClick={ResetHandler}> Reset </button>
+            <p>Last updated : {clickState.updatedTime.toLocaleString()}</p>
+          </>
+        );
+      }
+
+      const root = createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

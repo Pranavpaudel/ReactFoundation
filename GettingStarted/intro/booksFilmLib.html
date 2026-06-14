@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .author {
+        margin-left: 8px;
+        color: #e63946;
+        font-size: 0.9em;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      li:hover .author {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18",
+          "react-dom/client": "https://esm.sh/react-dom@18/client"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import React from "react";
+      import { createRoot } from "react-dom/client";
+
+      const books = [
+        { title: "Millenium", author: "Stieg Larsson" },
+        { title: "A Christmas Carol", author: "Charles Dickens" },
+        { title: "The Son", author: "Jo Nesbo" },
+      ];
+
+      const films = [
+        { title: "Airplane", director: "Jim Abrahams" },
+        { title: "Skyfall", director: "Sam Mendes" },
+        { title: "Love Actually", director: "Richard Curtis" },
+        { title: "Mission Impossible", director: "Brian De Palma" },
+      ];
+
+      const bookList = React.createElement(
+        "ul",
+        null,
+        books.map((b, i) =>
+          React.createElement(
+            "li",
+            { key: i },
+            b.title,
+            React.createElement("span", { className: "author" }, b.author),
+          ),
+        ),
+      );
+
+      const filmList = React.createElement(
+        "ul",
+        null,
+        films.map((f, idx) =>
+          React.createElement(
+            "li",
+            { key: idx },
+            f.title,
+            React.createElement("span", { className: "author" }, f.director),
+          ),
+        ),
+      );
+
+      const library = React.createElement(
+        "div",
+        null,
+        React.createElement("h1", null, "My Library"),
+        React.createElement("h3", null, "Books"),
+        bookList,
+        React.createElement("h3", null, "Films"),
+        filmList,
+      );
+
+      const root = createRoot(document.getElementById("root"));
+      root.render(library);
+    </script>
+  </body>
+</html>

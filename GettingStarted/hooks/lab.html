@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18",
+          "react-dom/client": "https://esm.sh/react-dom@18/client"
+        }
+      }
+    </script>
+
+    <script data-type="module" type="text/babel">
+      import React from "react";
+      import { createRoot } from "react-dom/client";
+
+      class Book {
+        constructor(title, author) {
+          this.title = title;
+          this.author = author;
+        }
+
+        toString() {
+          return `${this.title}, by ${this.author}`;
+        }
+      }
+
+      class Film {
+        constructor(name, genre, blurb) {
+          this.name = name;
+          this.genre = genre;
+          this.blurb = blurb;
+        }
+
+        toString() {
+          return `${this.name} [${this.genre}], ${this.blurb}`;
+        }
+      }
+
+      const books = [
+        new Book("Millenium", "Stieg Larrson"),
+        new Book("Achristmas Carol", "Charles Dickens"),
+        new Book("The Son", "Jo Nesbo"),
+      ];
+
+      const films = [
+        new Film("Airplane", "Comedy", "Classic plane Spoof"),
+        new Film("Skyfall", "Adventure", "Bond spy Yarn"),
+      ];
+
+      function ItemList({ items }) {
+        return (
+          <div>
+            <ul>
+              {items.map((item, idx) => (
+                <li key={idx}>{item.toString()}</li>
+              ))}
+            </ul>
+          </div>
+        );
+      }
+
+      function App() {
+        const [likeState, setLikeState] = React.useState({
+          likeCount: 0,
+          updatedAt: new Date(),
+        });
+
+        React.useEffect(
+          () =>
+            console.log(
+              "Like Count is now",
+              likeState.likeCount,
+              "at ",
+              likeState.updatedAt.toString(),
+            ),
+          [likeState],
+        );
+
+        function LikeCounter() {
+          setLikeState({
+            likeCount: likeState.likeCount + 1,
+            updatedAt: new Date(),
+          });
+        }
+
+        function ResetLikeCount() {
+          setLikeState({
+            likeCount: 0,
+            updatedAt: new Date(),
+          });
+        }
+        return (
+          <>
+            <h1>Bullet Point</h1>
+            <h3>Books</h3>
+            <ItemList items={books} />
+            <h3>Films</h3>
+            <ItemList items={films} />
+            <br />
+            <p> Like count : {likeState.likeCount}</p>
+            <button onClick={LikeCounter}>Like library</button>
+            <button onClick={ResetLikeCount}>Reset Like</button>
+            <h1>Last Updated: {likeState.updatedAt.toString()}</h1>
+          </>
+        );
+      }
+
+      const root = createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
