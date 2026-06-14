@@ -72,9 +72,12 @@
       import React from "react";
       import { createRoot } from "react-dom/client";
 
+      // Gallery uses useState to track which thumbnail was clicked.
+      // selectedUrl starts as undefined so the placeholder text is shown on first load.
       function Gallery({ baseUrl, picId }) {
         const [selectedUrl, setSelectedUrl] = React.useState(undefined);
 
+        // Ternary renders different JSX depending on whether a thumbnail has been selected
         const mainContent = selectedUrl ? (
           <img src={`${baseUrl}/id/${selectedUrl}/800/600`} />
         ) : (
@@ -82,12 +85,14 @@
         );
         return (
           <>
+            {/* Thumbnail strip — picsum.photos supports /id/<n>/w/h for resizing */}
             <div className="gallery">
               {picId.map((pic, idx) => (
                 <img
                   key={idx}
                   src={`${baseUrl}/id/${pic}/80/80`}
                   className="smallImage"
+                  // Arrow function captures the current `pic` value in the closure
                   onClick={() => setSelectedUrl(pic)}
                 />
               ))}

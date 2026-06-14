@@ -32,6 +32,8 @@
 
       const shops = ["Paris", "London", "NY", "Sydney"];
 
+      // Function-based components are plain JS functions that receive props and return React elements.
+      // They are simpler than class components and support hooks (useState, useEffect, etc.).
       function ItemList(props) {
         return React.createElement(
           "ul",
@@ -42,6 +44,7 @@
         );
       }
 
+      // App is the root component — it owns the data and passes slices down as props
       function App() {
         return React.createElement(
           "div",

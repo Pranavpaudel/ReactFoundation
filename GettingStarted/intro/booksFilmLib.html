@@ -32,6 +32,7 @@
       import React from "react";
       import { createRoot } from "react-dom/client";
 
+      // Data as arrays of objects — each object holds related fields together
       const books = [
         { title: "Millenium", author: "Stieg Larsson" },
         { title: "A Christmas Carol", author: "Charles Dickens" },
@@ -45,6 +46,8 @@
         { title: "Mission Impossible", director: "Brian De Palma" },
       ];
 
+      // A <li> can contain multiple children: the title text and a <span> for the author.
+      // The .author span starts invisible (opacity: 0) and reveals on hover via CSS transition.
       const bookList = React.createElement(
         "ul",
         null,
@@ -58,6 +61,7 @@
         ),
       );
 
+      // Same pattern reused for films — director is shown in the same .author span style
       const filmList = React.createElement(
         "ul",
         null,
@@ -71,6 +75,7 @@
         ),
       );
 
+      // Compose the full page from pre-built list variables
       const library = React.createElement(
         "div",
         null,

@@ -21,6 +21,8 @@
       import React from "react";
       import { createRoot } from "react-dom/client";
 
+      // Plain JS classes used as data models — not React components.
+      // toString() lets ItemList render them without knowing their internal fields.
       class Book {
         constructor(title, author) {
           this.title = title;
@@ -55,6 +57,7 @@
         new Film("Skyfall", "Adventure", "Bond spy Yarn"),
       ];
 
+      // Generic list component — calls itm.toString() so it works with any model class
       class ItemList extends React.Component {
         render() {
           let listType = this.props.isOrdered ? "ol" : "ul";
@@ -69,6 +72,7 @@
         }
       }
 
+      // Renders the <thead> row from an array of column header strings
       class TableHead extends React.Component {
         render() {
           return React.createElement(
@@ -85,6 +89,7 @@
         }
       }
 
+      // Renders a single <tr> from an array of cell values
       class TableRow extends React.Component {
         render() {
           return React.createElement(
@@ -97,6 +102,8 @@
         }
       }
 
+      // Composes TableHead and multiple TableRow components.
+      // rows is a 2D array: each inner array becomes one TableRow.
       class Table extends React.Component {
         render() {
           return React.createElement(
@@ -114,6 +121,7 @@
         }
       }
 
+      // App renders each collection twice: once as a bullet list, once as a table
       class App extends React.Component {
         render() {
           return React.createElement(
@@ -122,6 +130,7 @@
             React.createElement("h1", null, "Library"),
             React.createElement("h3", null, "Books"),
             React.createElement(ItemList, { items: books, isOrdered: true }),
+            // books.map extracts fields into a 2D array that Table can consume
             React.createElement(Table, {
               headers: ["Title", "Author"],
               rows: books.map((b) => [b.title, b.author]),

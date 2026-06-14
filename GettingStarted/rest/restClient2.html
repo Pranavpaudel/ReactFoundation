@@ -43,8 +43,11 @@
       function Gallery({ baseUrl }) {
         const [selectedUrl, setSelectedUrl] = React.useState(undefined);
         const [isLoading, setIsLoading] = React.useState(false);
+        // url holds the list of filenames fetched from the REST API
         const [url, setUrl] = React.useState([]);
 
+        // useEffect with an empty dependency array [] runs once after the first render (like componentDidMount).
+        // This is the standard pattern for triggering a data fetch on mount.
         React.useEffect(() => {
           const fetchUrl = "http://localhost:3000/api/thumbnailUrls";
 
@@ -52,6 +55,7 @@
             setIsLoading(true);
             try {
               const response = await window.fetch(url);
+              // fetch() only rejects on network failure, not HTTP errors — check response.ok explicitly
               if (!response.ok) {
                 throw Error("response.statusText");
               }
@@ -64,7 +68,7 @@
           }
 
           FetchData(fetchUrl);
-        }, []);
+        }, []); // empty array = run effect once on mount only
 
         const mainContent = selectedUrl ? (
           <img src={`${baseUrl}/${selectedUrl}`} className="largeImage" />
@@ -74,6 +78,7 @@
 
         return (
           <div className="gallery">
+            {/* Show a loading message while the fetch is in progress */}
             {isLoading ? (
               <p>Loading Url from Rest</p>
             ) : (

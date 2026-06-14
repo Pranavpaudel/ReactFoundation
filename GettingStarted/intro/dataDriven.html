@@ -20,6 +20,7 @@
       import React from "react";
       import { createRoot } from "react-dom/client";
 
+      // Data-driven rendering: define data once, let React map it to UI
       const products = [
         "Swansea City shirt",
         "Cardiff City shirt",
@@ -29,6 +30,9 @@
         "Ski boots",
       ];
 
+      // Array.map() turns each data item into a React element.
+      // The `key` prop helps React identify which items changed during re-renders.
+      // Using array index as key is fine for static lists; avoid it for reorderable lists.
       const prodList = React.createElement(
         "ul",
         null,
@@ -37,6 +41,7 @@
         ),
       );
 
+      // Compose the top-level element from the pre-built prodList variable
       const retailer = React.createElement(
         "div",
         null,

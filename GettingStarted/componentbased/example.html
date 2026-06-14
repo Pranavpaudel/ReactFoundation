@@ -20,6 +20,8 @@
       import React from "react";
       import { createRoot } from "react-dom/client";
 
+      // Class-based components extend React.Component and must implement render().
+      // They were the only stateful option before React Hooks (16.8).
       class ProductList extends React.Component{
         render(){
             return React.createElement('ul', null,
@@ -30,7 +32,7 @@
         }
       }
 
-
+      // Each class component encapsulates its own markup — the key benefit of component-based design
       class ShopList extends React.Component{
         render(){
             return React.createElement('ul', null,
@@ -41,6 +43,8 @@
         }
       }
 
+      // App is the root component that composes the two child components.
+      // Passing a class (e.g. ProductList) instead of a string ('div') tells React to render a component.
       class App extends React.Component{
         render(){
             return React.createElement('div', null,
@@ -51,7 +55,6 @@
             )
         }
       }
-
 
       const app = React.createElement(App)
 

@@ -22,6 +22,9 @@
       import React from "react";
       import { createRoot } from "react-dom/client";
 
+      // JSX is syntactic sugar — Babel transforms <li key={idx}>{item}</li>
+      // into React.createElement('li', { key: idx }, item) at build time.
+      // type="text/babel" tells the Babel standalone script to transform this block in the browser.
       const products = [
         "Swansea City shirt",
         "Cardiff City shirt",
@@ -33,6 +36,7 @@
 
       const shops = ["Paris", "London", "NY", "Sydney"];
 
+      // Curly braces {} inside JSX switch from HTML to JS expression mode
       function ItemList() {
         return (
           <div>
@@ -45,6 +49,7 @@
         );
       }
 
+      // Self-closing tag <ItemList /> is JSX shorthand for a component with no children
       function App() {
         return (
           <div>

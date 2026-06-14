@@ -19,13 +19,16 @@
       import React from "react";
       import { createRoot } from "react-dom/client";
 
+      // React.createElement(type, props, ...children) builds a virtual DOM element.
+      // This is what JSX compiles down to — using it directly shows what JSX hides.
       const retailer = React.createElement(
         "div",
-        { id: "retailerInfo" },
+        { id: "retailerInfo" }, // second arg: props object (null means no props)
         React.createElement("h1", null, "Catalog"),
         React.createElement(
           "ul",
           null,
+          // Each child needs a unique key when built from data; hard-coded children don't require it
           React.createElement("li", null, "Swansea City shirt"),
           React.createElement("li", null, "Cardiff City shirt"),
           React.createElement("li", null, "Bugatti Divo"),
@@ -44,6 +47,7 @@
         ),
       );
 
+      // createRoot replaces the legacy ReactDOM.render() from React 17 and below
       const root = createRoot(document.getElementById("root"));
       root.render(retailer);
     </script>

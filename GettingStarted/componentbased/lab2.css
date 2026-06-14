@@ -1,3 +1,5 @@
+/* Shared stylesheet for lab2.html and lab3.html */
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f6f8;
@@ -23,6 +25,7 @@ h3 {
   letter-spacing: 0.05em;
 }
 
+/* Card-style container for lists */
 ol, ul {
   background: #fff;
   border-radius: 6px;
@@ -40,6 +43,7 @@ li:last-child {
   border-bottom: none;
 }
 
+/* border-collapse removes double borders between adjacent cells */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -74,6 +78,7 @@ tr:last-child td {
   border-bottom: none;
 }
 
+/* Zebra striping for easier row scanning */
 tr:nth-child(even) {
   background-color: #f9fbfc;
 }

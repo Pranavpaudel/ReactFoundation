@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18",
+          "react-dom/client": "https://esm.sh/react-dom@18/client"
+        }
+      }
+    </script>
+
+    <script data-type="module" type="text/babel">
+      import React from "react";
+      import { createRoot } from "react-dom/client";
+
+      // Displays a titled panel with the given text and a live timestamp
+      function Panel({ title, text }) {
+        return (
+          <div className="panel">
+            <h1>{title}</h1>
+            <p>Text: {text}</p>
+            {/* Timestamp shows when this panel last rendered */}
+            <p>Time Stamp: {new Date().toString()}</p>
+          </div>
+        );
+      }
+
+      // Memoized version of Panel — skips re-render if props haven't changed
+      const MemoizedPanel = React.memo(Panel);
+
+      // The comparator must return true to SKIP re-render, false to re-render.
+      // Re-renders only when the text length changes, not on every keystroke.
+      const CustomFunctionMemoizedPanel = React.memo(
+        Panel,
+        (prevProps, currentProps) => {
+          return prevProps.text.length == currentProps.text.length;
+        },
+      );
+
+      function App() {
+        // Tracks the current input value
+        const [text, setText] = React.useState("");
+        // Tracks how many times the button has been clicked
+        const [clickCount, setClickCount] = React.useState(0);
+
+        return (
+          <>
+            {/* Typing here updates `text` and re-renders both panels */}
+            <input
+              value={text}
+              placeholder="Type here"
+              onChange={(e) => setText(e.target.value)}
+            />
+            {/* Clicking only updates `clickCount` — MemoizedPanel should NOT re-render */}
+            <button
+              onClick={() => {
+                setClickCount(clickCount + 1);
+              }}
+            >
+              Click me[Count:{clickCount}]
+            </button>
+
+            {/* Re-renders on every App update */}
+            <Panel title="Normal Panel" text={text} />
+            {/* Only re-renders when `title` or `text` props change */}
+            <MemoizedPanel title="Memoized Panel" text={text} />
+            <CustomFunctionMemoizedPanel
+              title="Functional Memoization "
+              text={text}
+            />
+          </>
+        );
+      }
+
+      // Mount the React app into the root div
+      const root = createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

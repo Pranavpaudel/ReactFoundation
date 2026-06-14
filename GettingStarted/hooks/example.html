@@ -22,11 +22,15 @@
       import { createRoot } from "react-dom/client";
 
       function App() {
+        // useState stores both count and timestamp in one object.
+        // Every call to setClickState triggers a re-render with the new value.
         const [clickState, setClickState] = React.useState({
           clickCount: 0,
           updatedTime: new Date(),
         });
 
+        // useState does NOT merge objects like setState() in class components —
+        // we must spread or rewrite the entire state object each time.
         function OnClickHandler() {
           setClickState({
             clickCount: clickState.clickCount + 1,
@@ -47,6 +51,7 @@
             <p>Click Count : {clickState.clickCount}</p>
             <button onClick={OnClickHandler}>Click Me</button>
             <button onClick={ResetHandler}> Reset </button>
+            {/* toLocaleString() formats the Date using the browser's locale settings */}
             <p>Last updated : {clickState.updatedTime.toLocaleString()}</p>
           </>
         );

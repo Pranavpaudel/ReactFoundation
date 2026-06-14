@@ -23,6 +23,7 @@
       import React from "react";
       import { createRoot } from "react-dom/client";
 
+      // Un-memoized: re-renders every time the parent (App) re-renders, even if props didn't change
       function Panel() {
         return (
           <div>
@@ -31,8 +32,11 @@
         );
       }
 
+      // React.memo wraps a component and skips re-rendering if its props are shallowly equal.
+      // MemoPanel receives no props, so it will never re-render after the first mount.
       const MemoPanel = React.memo(Panel);
 
+      // You can also pass an inline function directly to React.memo
       const MemoPanel2 = React.memo(() => {
         return (
           <div>
@@ -42,6 +46,8 @@
       });
 
       function App() {
+        // Every keystroke updates `text`, causing App to re-render.
+        // Watch the timestamps: Panel updates each time, MemoPanel and MemoPanel2 stay frozen.
         const [text, setText] = React.useState("");
 
         return (

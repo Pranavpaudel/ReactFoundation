@@ -24,8 +24,11 @@
       import { createRoot } from "react-dom/client";
 
       function App() {
+        // Requires the Express server in rest/server/server.js to be running on port 3000
         const url = "http://127.0.0.1:3000/api/thumbnailUrls";
 
+        // V1: Promise chaining — each .then() receives the resolved value of the previous promise.
+        // response.json() is itself a promise because parsing the body is also async.
         function FetchDataV1() {
           console.log("Fetching data V1");
           const promise = window.fetch(url);
@@ -36,6 +39,7 @@
           });
         }
 
+        // V2: async/await — syntactic sugar over promises; reads top-to-bottom like synchronous code
         async function FetchDataV2() {
           console.log("Calling Rest Services in V2");
           const response = await window.fetch(url);

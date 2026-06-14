@@ -31,8 +31,11 @@
 
       const shops = ["Paris", "London", "NY", "Sydney"];
 
+      // A single reusable component driven by props — no separate ProductList and ShopList classes needed.
+      // Props (properties) are passed as the second argument to React.createElement and accessed via this.props.
       class ItemList extends React.Component {
         render() {
+          // Dynamically choose the HTML tag based on the isOrdered prop
           let listType = this.props.isOrdered ? "ol" : "ul";
 
           return React.createElement(
@@ -51,8 +54,10 @@
             "div",
             null,
             React.createElement("h1", null, "Catalogue"),
+            // Passing items and isOrdered as props to customise the same component differently
             React.createElement(ItemList, { items: products, isOrdered: true }),
             React.createElement("h1", null, "Shops"),
+            // isOrdered is omitted here, so this.props.isOrdered will be undefined (falsy) → renders <ul>
             React.createElement(ItemList, { items: shops }),
           );
         }

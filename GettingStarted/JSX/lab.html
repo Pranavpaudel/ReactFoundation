@@ -22,6 +22,7 @@
       import React from "react";
       import { createRoot } from "react-dom/client";
 
+      // Plain JS model classes — not React components
       class Book {
         constructor(title, author) {
           this.title = title;
@@ -56,6 +57,7 @@
         new Film("Skyfall", "Adventure", "Bond spy Yarn"),
       ];
 
+      // Destructuring { items } from props directly in the parameter list — same as props.items
       function ItemList({ items }) {
         return (
           <div>
@@ -68,6 +70,7 @@
         );
       }
 
+      // React Fragment (<>...</>) wraps siblings without adding an extra DOM element
       function App() {
         return (
           <>

@@ -22,6 +22,7 @@
       import React from "react";
       import { createRoot } from "react-dom/client";
 
+      // Data model classes — same as lab2.html but now rendered by function-based components
       class Book {
         constructor(title, author) {
           this.title = title;
@@ -56,6 +57,7 @@
         new Film("Skyfall", "Adventure", "Bond spy Yarn"),
       ];
 
+      // Destructuring props inline is cleaner than repeating props.items / props.ordered
       function ItemList(props) {
         let { items, ordered } = props; //destructuring
         let listType = ordered ? "ol" : "ul";
@@ -68,6 +70,7 @@
         );
       }
 
+      // Renders the header row of a table — receives an array of column name strings
       function TableHead(props) {
         return React.createElement(
           "thead",
@@ -82,6 +85,7 @@
         );
       }
 
+      // Renders a single table row — receives an array of cell values
       function TableRow(props) {
         return React.createElement(
           "tr",
@@ -92,6 +96,7 @@
         );
       }
 
+      // Composes TableHead and TableRow — rows is a 2D array (array of cell arrays)
       function Table(props) {
         return React.createElement(
           "table",
@@ -107,6 +112,7 @@
         );
       }
 
+      // Root component — same structure as lab2.html but using functions instead of classes
       function App() {
         return React.createElement(
           "div",
